@@ -321,7 +321,7 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
                     <div className="flex justify-between text-[11px]">
                       <button 
                         onClick={() => onSelectAccount && onSelectAccount(asset.code)}
-                        className="font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-left hover:underline focus:outline-hidden cursor-pointer"
+                        className="font-mono text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 text-left hover:underline focus:outline-hidden cursor-pointer"
                       >
                         {asset.code} - {asset.name}
                       </button>
@@ -345,7 +345,7 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
           <div className="pt-3 border-t border-slate-100 dark:border-slate-800 mt-3">
             <button 
               onClick={() => onNavigate('statements')}
-              className="w-full py-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-[10px] font-mono text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white rounded transition-all flex items-center justify-center gap-1 cursor-pointer"
+              className="w-full py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-[10px] font-mono font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white rounded transition-all flex items-center justify-center gap-1 cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 shadow-2xs"
             >
               {t('dashViewFullBalance')}
               <ArrowRight className="h-3 w-3" />
@@ -365,7 +365,7 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
             </div>
             <button 
               onClick={() => onNavigate('journal')}
-              className="text-[10px] font-mono text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:underline flex items-center gap-0.5 cursor-pointer"
+              className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-[10px] font-mono font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white flex items-center gap-1 cursor-pointer transition-colors focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 shadow-2xs"
             >
               {t('dashManageJournal')}
               <ArrowRight className="h-3 w-3" />
@@ -440,7 +440,7 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
           <div className="pt-3 border-t border-slate-100 dark:border-slate-800 mt-3">
             <button 
               onClick={() => onNavigate('ledger')}
-              className="w-full py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-[10px] font-mono rounded transition-all flex items-center justify-center gap-1 cursor-pointer font-bold"
+              className="w-full py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-[10px] font-mono rounded transition-all flex items-center justify-center gap-1 cursor-pointer font-bold shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
             >
               {t('dashOpenLedger')}
               <ArrowRight className="h-3 w-3" />

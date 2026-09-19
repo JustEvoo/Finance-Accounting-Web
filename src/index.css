@@ -73,11 +73,7 @@
   }
 
   .bg-slate-50,
-  .bg-slate-950,
-  .bg-neutral-50,
-  .bg-neutral-955,
-  .bg-neutral-950,
-  .bg-zinc-950 {
+  .bg-neutral-50 {
     background-color: var(--background) !important;
   }
 
@@ -85,6 +81,40 @@
   .bg-neutral-100,
   .bg-slate-50\/50 {
     background-color: var(--bg-base-alt) !important;
+  }
+
+  /* Button contrast rules to guarantee high visibility across themes */
+  button.bg-slate-900,
+  button.bg-slate-950 {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+  }
+  button.bg-slate-900:hover,
+  button.bg-slate-950:hover {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+  }
+
+  .dark button.dark\:bg-white {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+  .dark button.dark\:bg-white:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+
+  button.bg-white {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+  .dark button.dark\:bg-slate-800 {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+  }
+  .dark button.dark\:hover\:bg-slate-700:hover {
+    background-color: #334155 !important;
+    color: #ffffff !important;
   }
 
   /* Hover states */

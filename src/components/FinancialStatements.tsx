@@ -45,23 +45,23 @@ export default function FinancialStatements({ accounts, entries, onOpenExportMod
         </div>
         <div className="flex items-center gap-2">
           {/* Tab selector */}
-          <div className="bg-slate-100 dark:bg-slate-800 p-0.5 rounded border border-slate-200 dark:border-slate-700 flex gap-0.5">
+          <div className="bg-slate-100 dark:bg-slate-800 p-0.5 rounded border border-slate-300 dark:border-slate-700 flex gap-0.5 shadow-2xs">
             <button
               onClick={() => setActiveTab('income')}
-              className={`px-2.5 py-1 text-[10px] font-mono rounded transition-all cursor-pointer ${
+              className={`px-2.5 py-1 text-[10px] font-mono rounded transition-all cursor-pointer focus:outline-hidden ${
                 activeTab === 'income' 
                   ? 'bg-white dark:bg-slate-900 text-slate-950 dark:text-white font-bold shadow-xs' 
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
               }`}
             >
               {t('fsPL')}
             </button>
             <button
               onClick={() => setActiveTab('balance')}
-              className={`px-2.5 py-1 text-[10px] font-mono rounded transition-all cursor-pointer ${
+              className={`px-2.5 py-1 text-[10px] font-mono rounded transition-all cursor-pointer focus:outline-hidden ${
                 activeTab === 'balance' 
                   ? 'bg-white dark:bg-slate-900 text-slate-950 dark:text-white font-bold shadow-xs' 
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
               }`}
             >
               {t('fsBS')}
@@ -71,7 +71,7 @@ export default function FinancialStatements({ accounts, entries, onOpenExportMod
           {/* Prominent Print / Export PDF Button */}
           <button
             onClick={handleOpenExport}
-            className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 text-[11px] font-mono font-bold rounded-md transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+            className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-[11px] font-mono font-bold rounded-md transition-all flex items-center gap-1.5 shadow-xs cursor-pointer border border-transparent focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
             title="Generate custom accounting reports and export to PDF"
           >
             <Printer className="h-3.5 w-3.5" />

@@ -182,7 +182,7 @@ export default function ProfileView({ profile, isCloud, onUpdateBio }: ProfileVi
                   id="save-bio-btn"
                   type="submit"
                   disabled={isSaving}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-950 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg transition-all text-xs font-bold cursor-pointer disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg transition-all text-xs font-bold cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50"
                 >
                   {isSaving ? (
                     <>

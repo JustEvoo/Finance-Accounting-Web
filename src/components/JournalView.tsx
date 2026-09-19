@@ -202,13 +202,13 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
           <button
             onClick={onResetData}
             title="Reset"
-            className="p-1.5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 rounded transition-all flex items-center justify-center cursor-pointer"
+            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white rounded transition-all flex items-center justify-center cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
           >
             <RefreshCw className="h-3.5 w-3.5" />
           </button>
           <button
             onClick={handleOpenForm}
-            className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-[11px] font-mono rounded shadow-xs transition-all flex items-center gap-1.5 cursor-pointer font-bold"
+            className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-[11px] font-mono rounded shadow-xs transition-all flex items-center gap-1.5 cursor-pointer font-bold focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
           >
             <Plus className="h-3 w-3" />
             {t('journalNewRecord')}
@@ -228,7 +228,7 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
             </h3>
             <button 
               onClick={() => setShowForm(false)}
-              className="text-[10px] text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-mono cursor-pointer"
+              className="px-2 py-0.5 rounded text-[10px] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-mono cursor-pointer transition-colors focus:outline-hidden"
             >
               {t('journalClose')}
             </button>
@@ -240,21 +240,21 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
             <button 
               type="button"
               onClick={() => applyTemplate('revenue')}
-              className="px-2 py-0.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 border border-slate-700 text-[9px] font-mono text-white rounded-sm transition-all cursor-pointer shadow-xs"
+              className="px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-[9px] font-mono font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white rounded-sm transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-1 focus:ring-slate-400"
             >
               {t('journalTemplateRevenue')}
             </button>
             <button 
               type="button"
               onClick={() => applyTemplate('expense')}
-              className="px-2 py-0.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 border border-slate-700 text-[9px] font-mono text-white rounded-sm transition-all cursor-pointer shadow-xs"
+              className="px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-[9px] font-mono font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white rounded-sm transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-1 focus:ring-slate-400"
             >
               {t('journalTemplateExpense')}
             </button>
             <button 
               type="button"
               onClick={() => applyTemplate('capital')}
-              className="px-2 py-0.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-95 border border-slate-700 text-[9px] font-mono text-white rounded-sm transition-all cursor-pointer shadow-xs"
+              className="px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-[9px] font-mono font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white rounded-sm transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-1 focus:ring-slate-400"
             >
               {t('journalTemplateCapital')}
             </button>
@@ -365,7 +365,7 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
                       type="button"
                       disabled={lines.length <= 2}
                       onClick={() => removeLine(index)}
-                      className="p-1 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400 hover:text-red-600 disabled:opacity-30 rounded transition-all cursor-pointer"
+                      className="p-1 border border-slate-300 dark:border-slate-700 hover:border-red-400 dark:hover:border-red-500 bg-white dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/40 text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-30 disabled:pointer-events-none rounded transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-red-400"
                     >
                       <Trash2 className="h-3 w-3" />
                     </button>
@@ -377,8 +377,9 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
             <button
               type="button"
               onClick={addLine}
-              className="mt-1.5 text-[10px] font-mono text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:underline flex items-center gap-1 focus:outline-hidden cursor-pointer"
+              className="mt-1.5 px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-[10px] font-mono font-bold text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white flex items-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 cursor-pointer shadow-2xs transition-colors"
             >
+              <Plus className="h-3 w-3" />
               {t('journalAddLine')}
             </button>
 
@@ -421,14 +422,14 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="px-3 py-1 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-mono rounded transition-all cursor-pointer"
+                    className="px-3 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-[11px] font-mono font-medium rounded transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                   >
                     {t('journalCancel')}
                   </button>
                   <button
                     type="submit"
                     disabled={!isBalanced}
-                    className="px-4 py-1 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed text-white dark:text-slate-900 text-[11px] font-mono rounded shadow-xs transition-all cursor-pointer active:scale-95 font-bold"
+                    className="px-4 py-1 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600 disabled:cursor-not-allowed text-white dark:text-slate-900 text-[11px] font-mono rounded shadow-xs transition-all cursor-pointer font-bold focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                   >
                     {t('journalSave')}
                   </button>
@@ -487,7 +488,7 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
                 setStartDate('');
                 setEndDate('');
               }}
-              className="text-[9px] font-mono text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:underline cursor-pointer"
+              className="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-[9px] font-mono font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white cursor-pointer transition-colors shadow-2xs focus:outline-hidden"
             >
               {t('journResetFilter') || 'Reset Filter'}
             </button>
@@ -524,7 +525,7 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
                         {onRemoveEntry && (
                           <button
                             onClick={() => setEntryToDelete(entry)}
-                            className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-950/50 border border-red-200 dark:border-red-900/50 hover:border-red-300 text-red-600 dark:text-red-400 rounded text-[9px] font-mono transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/60 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 rounded text-[9px] font-mono font-bold transition-colors cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-red-400"
                             title={t('journDelete')}
                           >
                             <Trash2 className="h-3 w-3" />
@@ -605,7 +606,7 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
                 <button
                   type="button"
                   onClick={() => setEntryToDelete(null)}
-                  className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 rounded text-xs font-semibold cursor-pointer"
+                  className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-xs font-semibold cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   {t('resetCancel') || 'Batal'}
                 </button>
@@ -617,7 +618,7 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
                     }
                     setEntryToDelete(null);
                   }}
-                  className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-bold cursor-pointer"
+                  className="px-4 py-1.5 bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 text-white rounded text-xs font-bold cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-red-400"
                 >
                   {t('journDelete') || 'Hapus'}
                 </button>

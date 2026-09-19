@@ -207,10 +207,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
       <div className="flex border-b border-slate-200 dark:border-slate-800 gap-1">
         <button
           onClick={() => setActiveTab('appearance')}
-          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer focus:outline-hidden ${
             activeTab === 'appearance'
               ? 'border-slate-900 text-slate-900 dark:border-slate-100 dark:text-white font-bold'
-              : 'border-transparent text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Eye className="h-3.5 w-3.5" />
@@ -219,10 +219,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
 
         <button
           onClick={() => setActiveTab('language')}
-          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer focus:outline-hidden ${
             activeTab === 'language'
               ? 'border-slate-900 text-slate-900 dark:border-slate-100 dark:text-white font-bold'
-              : 'border-transparent text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Globe className="h-3.5 w-3.5" />
@@ -231,10 +231,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
 
         <button
           onClick={() => setActiveTab('security')}
-          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer focus:outline-hidden ${
             activeTab === 'security'
               ? 'border-slate-900 text-slate-900 dark:border-slate-100 dark:text-white font-bold'
-              : 'border-transparent text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Lock className="h-3.5 w-3.5" />
@@ -267,10 +267,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                 <button
                   type="button"
                   onClick={() => handleSelectTheme('light')}
-                  className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between ${
+                  className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between focus:outline-hidden ${
                     theme === 'light'
-                      ? 'border-slate-950 bg-slate-50 dark:border-white ring-2 ring-slate-950 dark:ring-white'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/60'
+                      ? 'border-slate-950 bg-slate-100 text-slate-900 dark:border-white dark:bg-slate-800 dark:text-white ring-2 ring-slate-950 dark:ring-white shadow-2xs'
+                      : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -291,10 +291,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                 <button
                   type="button"
                   onClick={() => handleSelectTheme('dark')}
-                  className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between ${
+                  className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between focus:outline-hidden ${
                     theme === 'dark'
-                      ? 'border-slate-950 bg-slate-50 dark:border-white ring-2 ring-slate-950 dark:ring-white'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/60'
+                      ? 'border-slate-950 bg-slate-100 text-slate-900 dark:border-white dark:bg-slate-800 dark:text-white ring-2 ring-slate-950 dark:ring-white shadow-2xs'
+                      : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -326,13 +326,13 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                   </div>
                 )}
                 <div className="flex justify-between items-center">
-                  <span className="text-[11px] font-mono text-slate-400">
+                  <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
                     {theme === 'dark' ? '✓ ' + t('darkMode') : '✓ ' + t('lightMode')}
                   </span>
                   <button
                     onClick={handleSavePreferences}
                     disabled={isSavingSettings}
-                    className="px-4 py-2 bg-slate-950 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded text-xs font-bold flex items-center gap-2 cursor-pointer disabled:opacity-50 transition-all"
+                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded text-xs font-bold flex items-center gap-2 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50 transition-all"
                   >
                     {isSavingSettings && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                     <span>{t('applyTheme')}</span>
@@ -365,10 +365,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                   <button
                     type="button"
                     onClick={() => handleSelectLanguage('id')}
-                    className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between ${
+                    className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between focus:outline-hidden ${
                       language === 'id'
-                        ? 'border-slate-950 bg-slate-50 dark:border-white ring-2 ring-slate-950 dark:ring-white'
-                        : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/60'
+                        ? 'border-slate-950 bg-slate-100 text-slate-900 dark:border-white dark:bg-slate-800 dark:text-white ring-2 ring-slate-950 dark:ring-white shadow-2xs'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -389,10 +389,10 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                   <button
                     type="button"
                     onClick={() => handleSelectLanguage('en')}
-                    className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between ${
+                    className={`border rounded-lg p-4 text-left transition-all cursor-pointer flex items-center justify-between focus:outline-hidden ${
                       language === 'en'
-                        ? 'border-slate-950 bg-slate-50 dark:border-white ring-2 ring-slate-950 dark:ring-white'
-                        : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/60'
+                        ? 'border-slate-950 bg-slate-100 text-slate-900 dark:border-white dark:bg-slate-800 dark:text-white ring-2 ring-slate-950 dark:ring-white shadow-2xs'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -441,13 +441,13 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                   </div>
                 )}
                 <div className="flex justify-between items-center">
-                  <span className="text-[11px] font-mono text-slate-400">
+                  <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
                     {language === 'id' ? 'Bahasa Aktif: Indonesia' : 'Active Language: English'}
                   </span>
                   <button
                     onClick={handleSavePreferences}
                     disabled={isSavingSettings}
-                    className="px-4 py-2 bg-slate-950 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded text-xs font-bold flex items-center gap-2 cursor-pointer disabled:opacity-50 transition-all"
+                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded text-xs font-bold flex items-center gap-2 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50 transition-all"
                   >
                     {isSavingSettings && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                     <span>{t('applyLanguage')}</span>
@@ -524,7 +524,7 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                         <button
                           type="submit"
                           disabled={isUpdatingEmail}
-                          className="px-3.5 py-1.5 bg-slate-950 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded text-xs font-semibold flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded text-xs font-semibold flex items-center gap-2 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50"
                         >
                           {isUpdatingEmail && <Loader2 className="h-3 w-3 animate-spin" />}
                           <span>{t('saveSecurity')}</span>
@@ -578,7 +578,7 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                         <button
                           type="submit"
                           disabled={isUpdatingPass}
-                          className="px-3.5 py-1.5 bg-slate-950 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded text-xs font-semibold flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded text-xs font-semibold flex items-center gap-2 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50"
                         >
                           {isUpdatingPass && <Loader2 className="h-3 w-3 animate-spin" />}
                           <span>{t('changePassword')}</span>
@@ -602,8 +602,8 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                       <button
                         type="button"
                         onClick={handleToggle2Fa}
-                        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out outline-hidden focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 ${
-                          twoFaEnabled ? 'bg-emerald-500' : 'bg-slate-200 dark:bg-slate-800'
+                        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 focus:ring-offset-2 ${
+                          twoFaEnabled ? 'bg-emerald-600 dark:bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700'
                         }`}
                       >
                         <span
@@ -638,7 +638,7 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                       <button
                         type="button"
                         onClick={() => setShowResetConfirmModal(true)}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white rounded text-xs font-bold font-sans flex items-center gap-2 cursor-pointer transition-all shadow-xs shrink-0 self-start sm:self-center"
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white rounded text-xs font-bold font-sans flex items-center gap-2 cursor-pointer transition-all shadow-xs shrink-0 self-start sm:self-center focus:outline-hidden focus:ring-2 focus:ring-red-400 dark:focus:ring-red-500"
                         id="btn-reset-account"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -700,7 +700,7 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                     setShowResetConfirmModal(false);
                     setTypedConfirmation('');
                   }}
-                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 rounded text-xs font-semibold cursor-pointer"
+                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-xs font-semibold cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   Cancel
                 </button>
@@ -719,7 +719,7 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                       setTypedConfirmation('');
                     }
                   }}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-bold flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-bold flex items-center gap-2 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-red-400 dark:focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isResetting && <Loader2 className="h-3 w-3 animate-spin" />}
                   <span>Permanently Delete & Reset</span>

@@ -33,10 +33,10 @@ export default function LoginView({ onLogin, onContinueOffline, loading, resetSu
         <button
           type="button"
           onClick={toggleLanguage}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full shadow-xs text-xs font-mono font-semibold text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-600 transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-full shadow-2xs text-xs font-mono font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
           title={language === 'id' ? 'Ganti ke English' : 'Switch to Bahasa Indonesia'}
         >
-          <Languages className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
+          <Languages className="h-3.5 w-3.5 text-slate-600 dark:text-slate-400" />
           <span>{language.toUpperCase()}</span>
         </button>
 
@@ -44,10 +44,10 @@ export default function LoginView({ onLogin, onContinueOffline, loading, resetSu
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full shadow-xs text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-600 transition-all cursor-pointer"
+          className="p-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-full shadow-2xs text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
           title={theme === 'dark' ? t('lightMode') : t('darkMode')}
         >
-          {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
+          {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700 dark:text-slate-300" />}
         </button>
       </div>
 
@@ -167,7 +167,7 @@ export default function LoginView({ onLogin, onContinueOffline, loading, resetSu
             id="google-signin-btn"
             onClick={onLogin}
             disabled={loading}
-            className="w-full h-11 flex items-center justify-center gap-3 px-4 bg-slate-900 text-white dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 active:scale-[0.98] transition-all text-xs font-semibold cursor-pointer shadow-sm disabled:opacity-50"
+            className="w-full h-11 flex items-center justify-center gap-3 px-4 bg-slate-900 text-white dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 active:scale-[0.98] transition-all text-xs font-semibold cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50"
           >
             {loading ? (
               <span className="flex items-center gap-2">
@@ -195,7 +195,7 @@ export default function LoginView({ onLogin, onContinueOffline, loading, resetSu
             id="continue-guest-btn"
             onClick={onContinueOffline}
             disabled={loading}
-            className="w-full h-11 flex items-center justify-center gap-2 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white active:scale-[0.98] transition-all text-xs font-medium cursor-pointer disabled:opacity-50"
+            className="w-full h-11 flex items-center justify-center gap-2 px-4 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white active:scale-[0.98] transition-all text-xs font-medium cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 disabled:opacity-50"
           >
             <span>{t('offlineGuestDemo')}</span>
           </button>

@@ -251,7 +251,7 @@ export default function LedgerView({
             setNewCode('1-');
             setIsAddModalOpen(true);
           }}
-          className="mt-4 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-mono flex items-center gap-1.5 mx-auto cursor-pointer"
+          className="mt-4 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded text-xs font-mono font-bold flex items-center gap-1.5 mx-auto cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
         >
           <Plus className="h-3.5 w-3.5" />
           {language === 'en' ? 'Create First Account' : 'Buat Akun Pertama'}
@@ -330,7 +330,7 @@ export default function LedgerView({
                 setNewCode('1-');
                 setIsAddModalOpen(true);
               }}
-              className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-md text-[11px] font-mono font-semibold transition-all flex items-center gap-1.5 cursor-pointer border border-slate-200 dark:border-transparent shrink-0 shadow-2xs"
+              className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-md text-[11px] font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-slate-300 dark:border-slate-700 shrink-0 shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>{t('profileUID').includes('User') ? 'Add Account' : 'Tambah Akun'}</span>
@@ -367,10 +367,10 @@ export default function LedgerView({
                   setEditInitialBalance(activeAccount.initialBalance);
                   setIsEditModalOpen(true);
                 }}
-                className="text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 px-2.5 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-[10px] font-mono flex items-center gap-1.5 cursor-pointer transition-all font-semibold shadow-2xs"
+                className="text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 px-2.5 py-1.5 rounded border border-slate-300 dark:border-slate-700 text-[10px] font-mono flex items-center gap-1.5 cursor-pointer transition-all font-semibold shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 title="Edit Akun"
               >
-                <Edit className="h-3.5 w-3.5 text-slate-500" />
+                <Edit className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
                 <span>{t('profileUID').includes('User') ? 'Edit Account' : 'Edit Akun'}</span>
               </button>
             )}
@@ -385,7 +385,7 @@ export default function LedgerView({
                 ) : (
                   <button
                     onClick={handleDeleteAccount}
-                    className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/20 px-2.5 py-1.5 rounded border border-red-200 dark:border-red-950/40 text-[10px] font-mono flex items-center gap-1.5 cursor-pointer transition-all"
+                    className="text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/60 px-2.5 py-1.5 rounded border border-red-200 dark:border-red-800 text-[10px] font-mono flex items-center gap-1.5 cursor-pointer transition-all font-semibold shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-red-400"
                     title="Hapus Akun"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -532,7 +532,7 @@ export default function LedgerView({
                   setModalError(null);
                   setIsAddModalOpen(false);
                 }} 
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                className="p-1 rounded text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 cursor-pointer transition-colors shadow-2xs focus:outline-hidden"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -637,14 +637,14 @@ export default function LedgerView({
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg text-slate-700 dark:text-slate-300 transition-all font-semibold cursor-pointer"
+                  className="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-800 dark:text-slate-200 transition-all font-semibold cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   {language === 'en' ? 'Cancel' : 'Batal'}
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1"
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   {isSubmitting ? (
                     <span>...</span>
@@ -675,7 +675,7 @@ export default function LedgerView({
                   setEditModalError(null);
                   setIsEditModalOpen(false);
                 }} 
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                className="p-1 rounded text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 cursor-pointer transition-colors shadow-2xs focus:outline-hidden"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -802,14 +802,14 @@ export default function LedgerView({
                 <button
                   type="button"
                   onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg text-slate-700 dark:text-slate-300 transition-all font-semibold cursor-pointer"
+                  className="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-800 dark:text-slate-200 transition-all font-semibold cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   {language === 'en' ? 'Cancel' : 'Batal'}
                 </button>
                 <button
                   type="submit"
                   disabled={isEditSubmitting}
-                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1"
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 disabled:opacity-50 text-white dark:text-slate-900 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   {isEditSubmitting ? (
                     <span>...</span>

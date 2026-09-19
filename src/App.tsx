@@ -209,10 +209,10 @@ export default function App() {
                     setSelectedLedgerAccount(undefined);
                   }
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-xs transition-colors font-mono cursor-pointer ${
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-xs transition-colors font-mono cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 ${
                   isActive 
-                    ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold shadow-xs border border-slate-200 dark:border-slate-700' 
-                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'bg-slate-100 dark:bg-slate-800 text-slate-950 dark:text-white font-bold shadow-xs border border-slate-200 dark:border-slate-700' 
+                    : 'bg-transparent dark:bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white'
                 }`}
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -263,7 +263,7 @@ export default function App() {
           <div className="flex items-center justify-between">
             <button
               onClick={() => setCurrentView('profile')}
-              className="flex items-center gap-2.5 text-left cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 p-1 rounded-md transition-colors min-w-0"
+              className="flex items-center gap-2.5 text-left cursor-pointer bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 p-1 rounded-md transition-colors min-w-0 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
               title={t('menuProfile')}
             >
               {profile?.photoURL ? (
@@ -290,7 +290,7 @@ export default function App() {
             <button
               onClick={handleResetData}
               title="Reset"
-              className="p-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer shrink-0"
+              className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer shrink-0 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 shadow-2xs"
             >
               <RefreshCw className="h-3.5 w-3.5" />
             </button>
@@ -298,7 +298,7 @@ export default function App() {
 
           <button
             onClick={isCloud ? logout : () => { setIsGuestMode(false); }}
-            className="w-full flex items-center justify-center gap-2 py-1.5 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded text-[10px] text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-[10px] font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
           >
             {isCloud ? (
               <>
@@ -332,9 +332,9 @@ export default function App() {
           <button
             onClick={handleToggleLanguage}
             title={language === 'id' ? 'Ganti ke English' : 'Switch to Bahasa Indonesia'}
-            className="px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-[11px] font-mono font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 cursor-pointer"
+            className="px-2 py-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-[11px] font-mono font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
           >
-            <Languages className="h-3.5 w-3.5 text-slate-500" />
+            <Languages className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
             <span>{language.toUpperCase()}</span>
           </button>
 
@@ -342,7 +342,7 @@ export default function App() {
           <button
             onClick={handleToggleTheme}
             title={theme === 'dark' ? t('lightMode') : t('darkMode')}
-            className="p-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-slate-700 dark:text-slate-300 cursor-pointer"
+            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 flex items-center justify-center cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
           >
             {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
           </button>
@@ -351,7 +351,7 @@ export default function App() {
           <button
             onClick={() => setIsExportReportModalOpen(true)}
             title="Print / Export PDF"
-            className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-700 dark:text-slate-300 cursor-pointer"
+            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
           >
             <Printer className="h-4 w-4" />
           </button>
@@ -360,7 +360,7 @@ export default function App() {
           <button
             onClick={handleResetData}
             title="Reset"
-            className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 cursor-pointer"
+            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
           >
             <RefreshCw className="h-4 w-4" />
           </button>
@@ -368,7 +368,7 @@ export default function App() {
           {/* Hamburger Menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 focus:outline-hidden cursor-pointer"
+            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 cursor-pointer shadow-2xs"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -398,10 +398,10 @@ export default function App() {
                         setSelectedLedgerAccount(undefined);
                       }
                     }}
-                    className={`flex items-center gap-2 px-3 py-2 rounded text-xs font-mono cursor-pointer ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded text-xs font-mono cursor-pointer transition-colors focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 ${
                       isActive 
-                        ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold' 
-                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                        ? 'bg-slate-100 dark:bg-slate-800 text-slate-950 dark:text-white font-bold border border-slate-200 dark:border-slate-700 shadow-2xs' 
+                        : 'bg-transparent dark:bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white'
                     }`}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
@@ -412,10 +412,10 @@ export default function App() {
             </div>
 
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-[11px] font-mono">
-              <span className="text-slate-400">{profile?.displayName || 'Guest User'}</span>
+              <span className="text-slate-500 dark:text-slate-400">{profile?.displayName || 'Guest User'}</span>
               <button
                 onClick={isCloud ? logout : () => setIsGuestMode(false)}
-                className="text-red-600 dark:text-red-400 font-bold cursor-pointer"
+                className="px-2.5 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 border border-red-200 dark:border-red-800 rounded text-red-700 dark:text-red-300 font-bold cursor-pointer text-xs transition-colors"
               >
                 {isCloud ? t('logoutLabel') : t('loginLabel')}
               </button>
@@ -462,7 +462,7 @@ export default function App() {
             {/* Clearly visible Print / Export PDF button */}
             <button
               onClick={() => setIsExportReportModalOpen(true)}
-              className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200 rounded-md font-mono font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
+              className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded-md font-mono font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
               title="Generate accounting reports and export to PDF"
               id="btn-print-export-pdf"
             >
@@ -476,7 +476,7 @@ export default function App() {
             <button
               type="button"
               onClick={handleToggleLanguage}
-              className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-md font-mono font-bold text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
+              className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-md font-mono font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
               title={language === 'id' ? 'Ganti ke Bahasa Inggris (Switch to English)' : 'Switch to Bahasa Indonesia'}
               id="btn-language-toggle"
             >
@@ -488,7 +488,7 @@ export default function App() {
             <button
               type="button"
               onClick={handleToggleTheme}
-              className="p-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-md text-slate-700 dark:text-slate-200 flex items-center justify-center transition-all shadow-2xs cursor-pointer"
+              className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-md text-slate-800 dark:text-slate-200 flex items-center justify-center transition-all shadow-2xs cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
               title={theme === 'dark' ? t('lightMode') : t('darkMode')}
               id="btn-theme-toggle"
             >
@@ -609,13 +609,13 @@ export default function App() {
                 {/* Option 1: Reset to template/demo data */}
                 <button
                   onClick={() => executeResetData(false)}
-                  className="w-full text-left p-3.5 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 bg-slate-50 hover:bg-blue-50/10 dark:bg-slate-950 rounded-lg transition-all group cursor-pointer"
+                  className="w-full text-left p-3.5 border border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 bg-white hover:bg-blue-50/40 dark:bg-slate-800 dark:hover:bg-slate-700/80 rounded-lg transition-all group cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 >
                   <div className="font-bold text-xs text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1.5 font-sans">
                     <Database className="h-3.5 w-3.5" />
                     {t('resetToDemoTitle')}
                   </div>
-                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 leading-normal font-mono">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-normal font-mono">
                     {t('resetToDemoDesc')}
                   </div>
                 </button>
@@ -623,13 +623,13 @@ export default function App() {
                 {/* Option 2: Reset everything to zero */}
                 <button
                   onClick={() => executeResetData(true)}
-                  className="w-full text-left p-3.5 border border-slate-200 dark:border-slate-800 hover:border-red-500 dark:hover:border-red-500 bg-slate-50 hover:bg-red-50/10 dark:bg-slate-950 rounded-lg transition-all group cursor-pointer"
+                  className="w-full text-left p-3.5 border border-slate-300 dark:border-slate-700 hover:border-red-500 dark:hover:border-red-400 bg-white hover:bg-red-50/40 dark:bg-slate-800 dark:hover:bg-slate-700/80 rounded-lg transition-all group cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 >
                   <div className="font-bold text-xs text-slate-800 dark:text-slate-200 group-hover:text-red-600 dark:group-hover:text-red-400 flex items-center gap-1.5 font-sans">
                     <RefreshCw className="h-3.5 w-3.5 text-red-500 animate-spin" style={{ animationDuration: '3s' }} />
                     {t('resetToZeroTitle')}
                   </div>
-                  <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 leading-normal font-mono">
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-normal font-mono">
                     {t('resetToZeroDesc')}
                   </div>
                 </button>
@@ -639,7 +639,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setShowResetModal(false)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 rounded text-xs font-semibold cursor-pointer font-sans"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-xs font-semibold cursor-pointer font-sans focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500 shadow-2xs"
                 >
                   {t('resetCancel')}
                 </button>

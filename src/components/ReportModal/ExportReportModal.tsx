@@ -301,7 +301,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
               title="Close window"
             >
               <X className="h-5 w-5" />
@@ -314,10 +314,10 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide py-0.5">
             <button
               onClick={() => setActiveTab('reports')}
-              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer focus:outline-hidden ${
                 activeTab === 'reports'
                   ? 'bg-slate-900 text-white font-bold dark:bg-white dark:text-slate-900 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  : 'bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               <BookOpen className="h-3.5 w-3.5" />
@@ -328,10 +328,10 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
 
             <button
               onClick={() => setActiveTab('filters')}
-              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer focus:outline-hidden ${
                 activeTab === 'filters'
                   ? 'bg-slate-900 text-white font-bold dark:bg-white dark:text-slate-900 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  : 'bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               <Filter className="h-3.5 w-3.5" />
@@ -342,10 +342,10 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
 
             <button
               onClick={() => setActiveTab('preview')}
-              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer focus:outline-hidden ${
                 activeTab === 'preview'
                   ? 'bg-slate-900 text-white font-bold dark:bg-white dark:text-slate-900 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  : 'bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               <Eye className="h-3.5 w-3.5" />
@@ -356,10 +356,10 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
 
             <button
               onClick={() => setActiveTab('export')}
-              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-colors cursor-pointer focus:outline-hidden ${
                 activeTab === 'export'
                   ? 'bg-slate-900 text-white font-bold dark:bg-white dark:text-slate-900 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  : 'bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
               }`}
             >
               <Printer className="h-3.5 w-3.5" />
@@ -372,7 +372,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
             <button
               onClick={handlePrint}
               disabled={isExporting}
-              className="px-2.5 py-1 text-xs font-mono font-semibold bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded flex items-center gap-1 transition-all cursor-pointer shadow-2xs"
+              className="px-2.5 py-1 text-xs font-mono font-semibold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded flex items-center gap-1 transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
             >
               <Printer className="h-3.5 w-3.5 text-slate-600 dark:text-slate-400" />
               <span>Print</span>
@@ -380,7 +380,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
             <button
               onClick={handleExportPDF}
               disabled={isExporting}
-              className="px-3 py-1 text-xs font-mono font-bold bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded flex items-center gap-1 transition-all cursor-pointer shadow-xs"
+              className="px-3 py-1 text-xs font-mono font-bold bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded flex items-center gap-1 transition-all cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
             >
               <FileDown className="h-3.5 w-3.5" />
               <span>Export PDF</span>
@@ -418,14 +418,14 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                   <div className="flex items-center gap-2 text-[10px] font-mono">
                     <button
                       onClick={() => handleSelectCategoryAll('statements')}
-                      className="text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white underline cursor-pointer"
+                      className="px-2 py-0.5 rounded text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 font-semibold transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
                     >
                       Select All
                     </button>
-                    <span className="text-slate-300">|</span>
+                    <span className="text-slate-300 dark:text-slate-700">|</span>
                     <button
                       onClick={() => handleClearCategory('statements')}
-                      className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 underline cursor-pointer"
+                      className="px-2 py-0.5 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
                     >
                       Clear
                     </button>
@@ -474,14 +474,14 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                   <div className="flex items-center gap-2 text-[10px] font-mono">
                     <button
                       onClick={() => handleSelectCategoryAll('history')}
-                      className="text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white underline cursor-pointer"
+                      className="px-2 py-0.5 rounded text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 font-semibold transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
                     >
                       Select All
                     </button>
-                    <span className="text-slate-300">|</span>
+                    <span className="text-slate-300 dark:text-slate-700">|</span>
                     <button
                       onClick={() => handleClearCategory('history')}
-                      className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 underline cursor-pointer"
+                      className="px-2 py-0.5 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
                     >
                       Clear
                     </button>
@@ -530,14 +530,14 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                   <div className="flex items-center gap-2 text-[10px] font-mono">
                     <button
                       onClick={() => handleSelectCategoryAll('other')}
-                      className="text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white underline cursor-pointer"
+                      className="px-2 py-0.5 rounded text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 font-semibold transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
                     >
                       Select All
                     </button>
-                    <span className="text-slate-300">|</span>
+                    <span className="text-slate-300 dark:text-slate-700">|</span>
                     <button
                       onClick={() => handleClearCategory('other')}
-                      className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 underline cursor-pointer"
+                      className="px-2 py-0.5 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer shadow-2xs focus:outline-hidden"
                     >
                       Clear
                     </button>
@@ -578,7 +578,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
               <div className="flex justify-end pt-2">
                 <button
                   onClick={() => setActiveTab('filters')}
-                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   <span>Next: Configure Filters & Layout</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -621,10 +621,10 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                             key={p}
                             type="button"
                             onClick={() => handleDatePresetChange(p)}
-                            className={`py-1 px-1.5 rounded text-center border uppercase transition-colors cursor-pointer ${
+                            className={`py-1 px-1.5 rounded text-center border uppercase transition-colors cursor-pointer focus:outline-hidden ${
                               filters.datePreset === p
-                                ? 'bg-slate-900 text-white font-bold border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
-                                : 'bg-slate-50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:bg-slate-100'
+                                ? 'bg-slate-900 text-white font-bold border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white shadow-xs'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700/80'
                             }`}
                           >
                             {p.replace('_', ' ')}
@@ -896,7 +896,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
               <div className="flex items-center justify-between pt-2">
                 <button
                   onClick={() => setActiveTab('reports')}
-                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer"
+                  className="px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>Back to Reports</span>
@@ -904,7 +904,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
 
                 <button
                   onClick={() => setActiveTab('preview')}
-                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   <span>Next: View Live Preview</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -937,10 +937,10 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                 {/* Zoom Controls */}
                 <div className="flex items-center gap-2">
                   <span className="text-slate-400 text-[10px]">ZOOM:</span>
-                  <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 p-0.5">
+                  <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700 p-0.5">
                     <button
                       onClick={() => setZoomLevel(prev => Math.max(50, prev - 15))}
-                      className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded text-slate-600 dark:text-slate-300 cursor-pointer"
+                      className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-hidden"
                       title="Zoom Out"
                     >
                       <ZoomOut className="h-3.5 w-3.5" />
@@ -950,7 +950,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                     </span>
                     <button
                       onClick={() => setZoomLevel(prev => Math.min(150, prev + 15))}
-                      className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded text-slate-600 dark:text-slate-300 cursor-pointer"
+                      className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-hidden"
                       title="Zoom In"
                     >
                       <ZoomIn className="h-3.5 w-3.5" />
@@ -959,7 +959,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
 
                   <button
                     onClick={() => setZoomLevel(100)}
-                    className="px-2 py-1 text-[10px] border border-slate-200 dark:border-slate-700 rounded text-slate-600 dark:text-slate-400 hover:bg-slate-50 cursor-pointer"
+                    className="px-2 py-1 text-[10px] border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded cursor-pointer shadow-2xs focus:outline-hidden"
                   >
                     100%
                   </button>
@@ -985,7 +985,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
               <div className="flex items-center justify-between pt-2 font-mono">
                 <button
                   onClick={() => setActiveTab('filters')}
-                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>Adjust Filters</span>
@@ -995,16 +995,16 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                   <button
                     onClick={handlePrint}
                     disabled={isExporting}
-                    className="px-4 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    className="px-4 py-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                   >
-                    <Printer className="h-3.5 w-3.5" />
+                    <Printer className="h-3.5 w-3.5 text-slate-600 dark:text-slate-400" />
                     <span>Print Document</span>
                   </button>
 
                   <button
                     onClick={handleExportPDF}
                     disabled={isExporting}
-                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                   >
                     <FileDown className="h-3.5 w-3.5" />
                     <span>Export PDF</span>
@@ -1094,11 +1094,11 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                 <button
                   onClick={handlePrint}
                   disabled={isExporting}
-                  className="p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/80 border-2 border-slate-900 dark:border-white text-slate-900 dark:text-white rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer group shadow-sm"
+                  className="p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/80 border-2 border-slate-900 dark:border-white text-slate-900 dark:text-white rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer group shadow-sm focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   <Printer className="h-6 w-6 text-slate-900 dark:text-white group-hover:scale-110 transition-transform" />
                   <span className="font-mono font-bold text-sm uppercase">Print Document</span>
-                  <span className="text-[10px] text-slate-500 font-sans text-center">
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans text-center">
                     Open system print dialog formatted for physical A4 printing
                   </span>
                 </button>
@@ -1106,7 +1106,7 @@ export const ExportReportModal: React.FC<ExportReportModalProps> = ({
                 <button
                   onClick={handleExportPDF}
                   disabled={isExporting}
-                  className="p-4 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer group shadow-md"
+                  className="p-4 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 rounded-xl flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer group shadow-md focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
                 >
                   <FileDown className="h-6 w-6 text-white dark:text-slate-900 group-hover:scale-110 transition-transform" />
                   <span className="font-mono font-bold text-sm uppercase">Export PDF Document</span>
