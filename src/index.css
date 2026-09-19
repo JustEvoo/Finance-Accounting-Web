@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --bg-base: #f8fafc;
+  --bg-base-alt: #f1f5f9;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --color-primary-text: var(--text-primary);
+  --color-input-bg: var(--surface);
+  --color-border-divider: var(--border);
+  --slate-900: #0f172a;
+}
+
+.dark {
+  --background: #090d16;
+  --bg-base: #090d16;
+  --bg-base-alt: #131b2e;
+  --surface: #0f172a;
+  --border: #1e293b;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --color-primary-text: var(--text-primary);
+  --color-input-bg: var(--surface);
+  --color-border-divider: var(--border);
+  --slate-900: #0f172a;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Standardized theme overrides using custom properties */
+  --color-slate-50: var(--bg-base);
+  --color-slate-100: var(--bg-base-alt);
+  --color-slate-200: var(--color-border-divider);
+  --color-slate-300: var(--color-border-divider);
+  --color-slate-800: var(--color-border-divider);
+  --color-slate-900: var(--slate-900);
+  --color-slate-950: var(--bg-base);
+  
+  --color-neutral-50: var(--bg-base);
+  --color-neutral-900: var(--color-primary-text);
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--background) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Clean minimal grid patterns */
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px) !important;
+  }
+
+  /* Universal components mapped to CSS variable token system */
+  
+  /* Background mappings */
+  .bg-white {
+    background-color: var(--surface) !important;
+  }
+
+  .bg-slate-50,
+  .bg-slate-950,
+  .bg-neutral-50,
+  .bg-neutral-955,
+  .bg-neutral-950,
+  .bg-zinc-950 {
+    background-color: var(--background) !important;
+  }
+
+  .bg-slate-100,
+  .bg-neutral-100,
+  .bg-slate-50\/50 {
+    background-color: var(--bg-base-alt) !important;
+  }
+
+  /* Hover states */
+  .hover\:bg-slate-50:hover,
+  .hover\:bg-slate-100:hover,
+  .hover\:bg-slate-800:hover,
+  .hover\:bg-neutral-50:hover,
+  .hover\:bg-neutral-100:hover {
+    background-color: var(--bg-base-alt) !important;
+  }
+
+  /* Card custom border and shadows: subtle shadows and visible borders required */
+  [id$="-card"],
+  .card,
+  [id$="-container"],
+  [id$="-table-container"] {
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Exclude printable report sheets from dark mode text inversion so reports look like printed paper */
+  #printable-report-area,
+  #printable-report-area *,
+  .report-page-container,
+  .report-page-container * {
+    color: #0f172a !important;
+  }
+  #printable-report-area,
+  .report-page-container {
+    background-color: #ffffff !important;
+  }
+  #printable-report-area .bg-white,
+  .report-page-container .bg-white {
+    background-color: #ffffff !important;
+  }
+  #printable-report-area .bg-slate-50,
+  .report-page-container .bg-slate-50 {
+    background-color: #f8fafc !important;
+  }
+  #printable-report-area .border-slate-300,
+  .report-page-container .border-slate-300 {
+    border-color: #cbd5e1 !important;
+  }
+  #printable-report-area .border-slate-200,
+  .report-page-container .border-slate-200 {
+    border-color: #e2e8f0 !important;
+  }
+  #printable-report-area .border-slate-100,
+  .report-page-container .border-slate-100 {
+    border-color: #f1f5f9 !important;
+  }
+  #printable-report-area .text-slate-500,
+  #printable-report-area .text-slate-400,
+  .report-page-container .text-slate-500,
+  .report-page-container .text-slate-400 {
+    color: #64748b !important;
+  }
+  #printable-report-area .bg-slate-900,
+  .report-page-container .bg-slate-900 {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+  }
+  #printable-report-area .bg-slate-900 *,
+  .report-page-container .bg-slate-900 * {
+    color: #ffffff !important;
+  }
+
+  /* Inputs, Selects, Textareas */
+  input,
+  select,
+  textarea {
+    background-color: var(--surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--text-primary) !important;
+    outline: none !important;
+  }
+
+  /* Disabled inputs */
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    background-color: var(--bg-base-alt) !important;
+    color: var(--text-muted) !important;
+    border-color: var(--border) !important;
+    opacity: 0.65 !important;
+  }
+
+  /* Divider and structural borders */
+  hr,
+  .border,
+  .border-t,
+  .border-b,
+  .border-l,
+  .border-r,
+  .border-slate-100,
+  .border-slate-200,
+  .border-slate-300,
+  .border-slate-800,
+  .border-neutral-100,
+  .border-neutral-200,
+  .divide-y > *,
+  .divide-slate-100 > *,
+  .divide-slate-200 > *,
+  .divide-slate-800 > * {
+    border-color: var(--border) !important;
+  }
+
+  /* Primary text contrast mapping */
+  h1, h2, h3, h4, h5, h6,
+  .text-slate-955,
+  .text-slate-900,
+  .text-slate-800,
+  .text-neutral-900,
+  .text-neutral-850 {
+    color: var(--text-primary) !important;
+  }
+
+  /* Secondary text contrast mapping */
+  .text-slate-700,
+  .text-slate-600,
+  .text-neutral-800,
+  .text-neutral-700,
+  .text-neutral-600 {
+    color: var(--text-secondary) !important;
+  }
+
+  /* Muted / helper text contrast mapping */
+  .text-slate-500,
+  .text-slate-400,
+  .text-neutral-500,
+  .text-neutral-400,
+  .text-slate-300,
+  .text-neutral-300 {
+    color: var(--text-muted) !important;
+  }
+
+  /* Google Sign-in Button contrast handling */
+  #google-signin-btn {
+    background-color: var(--surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border) !important;
+  }
+  
+  #google-signin-btn:hover {
+    background-color: var(--bg-base-alt) !important;
+  }
+
+  .dark #google-signin-btn {
+    background-color: #ffffff !important;
+    color: #121212 !important;
+  }
+
+  .dark #google-signin-btn:hover {
+    background-color: #e5e7eb !important;
+  }
+
+  /* Custom input styling for numeric values without spinners */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* Custom subtle scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.25);
+    border-radius: 9999px;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.45);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* Elegant Print layout stylesheet overrides */
+@media print {
+  @page {
+    size: A4 auto;
+    margin: 12mm 14mm 14mm 14mm;
+  }
+
+  body.print-landscape {
+    @page {
+      size: A4 landscape;
+      margin: 10mm 12mm 12mm 12mm;
+    }
+  }
+
+  body.print-portrait {
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 14mm 14mm;
+    }
+  }
+
+  body {
+    background-color: white !important;
+    color: black !important;
+    font-size: 10pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* When printing report modal, hide everything else */
+  body.printing-report #root > div > aside,
+  body.printing-report #root > div > header,
+  body.printing-report #root > div > main > header,
+  body.printing-report #root > div > main > div,
+  body.printing-report .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body.printing-report #printable-report-area {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  .print-page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  table {
+    page-break-inside: auto !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tfoot {
+    display: table-footer-group !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-footer-page-number::after {
+    counter-increment: page;
+    content: "Page " counter(page);
+  }
+}

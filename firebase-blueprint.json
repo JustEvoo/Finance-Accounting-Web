@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "description": "Email address" },
+        "displayName": { "type": "string", "description": "Display name" },
+        "photoURL": { "type": "string", "description": "Profile picture URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "lastLoginAt": { "type": "string", "format": "date-time", "description": "Last sign-in timestamp" },
+        "bio": { "type": "string", "description": "User custom bio/description", "maxLength": 500 },
+        "theme": { "type": "string", "description": "User preferred theme: light or dark" },
+        "language": { "type": "string", "description": "User preferred language: en or id" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Account": {
+      "title": "Accounting Account",
+      "description": "A ledger account in the ERP",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Unique account code (e.g., 1-1000)" },
+        "name": { "type": "string", "description": "Account name (e.g., Kas dan Setara Kas)" },
+        "type": { "type": "string", "description": "Account type: asset, liability, equity, revenue, or expense" },
+        "normalBalance": { "type": "string", "description": "Normal balance: debit or credit" },
+        "initialBalance": { "type": "number", "description": "Initial/opening balance" }
+      },
+      "required": ["code", "name", "type", "normalBalance", "initialBalance"]
+    },
+    "JournalEntry": {
+      "title": "General Journal Entry",
+      "description": "A double-entry general journal entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique journal entry ID" },
+        "date": { "type": "string", "format": "date", "description": "Transaction date" },
+        "reference": { "type": "string", "description": "Reference code (e.g., JV-2026-001)" },
+        "description": { "type": "string", "description": "Transaction description" },
+        "lines": {
+          "type": "array",
+          "description": "List of journal lines containing debit/credit entries"
+        }
+      },
+      "required": ["id", "date", "reference", "description", "lines"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles"
+    },
+    "users/{userId}/accounts/{accountCode}": {
+      "schema": "Account",
+      "description": "Custom accounting accounts list for the user"
+    },
+    "users/{userId}/journalEntries/{entryId}": {
+      "schema": "JournalEntry",
+      "description": "Custom journal entries list for the user"
+    }
+  }
+}

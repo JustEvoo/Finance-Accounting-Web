@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vast ERP</title>
+    <meta name="description" content="Vast ERP: A professional, monochrome, and clean web-based ERP and accounting application with Google Authentication and Firestore cloud synchronization." />
+    <meta property="og:title" content="Vast ERP" />
+    <meta property="og:description" content="Vast ERP: A professional, monochrome, and clean web-based ERP and accounting application with Google Authentication and Firestore cloud synchronization." />
+    <script>
+      (function() {
+        try {
+          var storedTheme = localStorage.getItem('vast_erp_theme') || localStorage.getItem('vast_erp_guest_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+          var storedLang = localStorage.getItem('vast_erp_language') || localStorage.getItem('vast_erp_guest_language');
+          if (storedLang) {
+            document.documentElement.setAttribute('lang', storedLang);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

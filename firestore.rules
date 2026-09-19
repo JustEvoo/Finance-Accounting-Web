@@ -1,0 +1,149 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net: default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Core Reusable Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn();
+    }
+
+    function isOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string 
+          && id.size() <= 128 
+          && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // --- Entity-Specific Validation Blueprints ---
+
+    // User document validation
+    function isValidUser(data) {
+      return data.uid is string 
+          && data.uid == request.auth.uid 
+          && data.uid.size() <= 128
+          && data.email is string 
+          && data.email == request.auth.token.email
+          && data.email.size() <= 128
+          && data.displayName is string 
+          && data.displayName.size() <= 100
+          && data.photoURL is string 
+          && data.photoURL.size() <= 5000
+          && data.bio is string 
+          && data.bio.size() <= 500
+          && data.theme is string
+          && data.theme in ['light', 'dark']
+          && data.language is string
+          && data.language in ['en', 'id'];
+    }
+
+    // Account validation
+    function isValidAccount(data) {
+      return data.code is string 
+          && data.code.size() <= 32
+          && data.name is string 
+          && data.name.size() <= 100
+          && data.type is string 
+          && data.type in ['asset', 'liability', 'equity', 'revenue', 'expense']
+          && data.normalBalance is string 
+          && data.normalBalance in ['debit', 'credit']
+          && data.initialBalance is number;
+    }
+
+    // Journal Entry validation
+    function isValidJournalEntry(data) {
+      return data.id is string 
+          && data.id.size() <= 128
+          && data.date is string 
+          && data.date.size() == 10
+          && data.reference is string 
+          && data.reference.size() <= 50
+          && data.description is string 
+          && data.description.size() <= 500
+          && data.lines is list 
+          && data.lines.size() <= 100;
+    }
+
+    // --- Match Rules ---
+
+    // Users collection
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      
+      allow create: if isOwner(userId) 
+                    && isValidUser(incoming())
+                    && incoming().keys().hasAll(['uid', 'email', 'displayName', 'photoURL', 'createdAt', 'lastLoginAt', 'bio', 'theme', 'language'])
+                    && incoming().keys().size() == 9;
+                    
+      allow update: if isOwner(userId) 
+                    && isValidUser(incoming())
+                    && incoming().keys().hasAll(['uid', 'email', 'displayName', 'photoURL', 'createdAt', 'lastLoginAt', 'bio', 'theme', 'language'])
+                    && incoming().keys().size() == 9
+                    && incoming().uid == existing().get('uid', incoming().uid)
+                    && incoming().email == existing().get('email', incoming().email)
+                    && incoming().createdAt == existing().get('createdAt', incoming().createdAt);
+    }
+
+    // Accounts subcollection
+    match /users/{userId}/accounts/{accountCode} {
+      allow read: if isOwner(userId);
+      
+      allow create: if isOwner(userId) 
+                    && isValidId(accountCode) 
+                    && isValidAccount(incoming())
+                    && incoming().keys().hasAll(['code', 'name', 'type', 'normalBalance', 'initialBalance'])
+                    && incoming().keys().size() == 5;
+                    
+      allow update: if isOwner(userId) 
+                    && isValidId(accountCode) 
+                    && isValidAccount(incoming())
+                    && incoming().keys().hasAll(['code', 'name', 'type', 'normalBalance', 'initialBalance'])
+                    && incoming().keys().size() == 5
+                    && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'type', 'normalBalance', 'initialBalance']);
+                    
+      allow delete: if isOwner(userId) 
+                    && isValidId(accountCode);
+    }
+
+    // Journal Entries subcollection
+    match /users/{userId}/journalEntries/{entryId} {
+      allow read: if isOwner(userId);
+      
+      allow create: if isOwner(userId) 
+                    && isValidId(entryId) 
+                    && isValidJournalEntry(incoming())
+                    && incoming().keys().hasAll(['id', 'date', 'reference', 'description', 'lines'])
+                    && incoming().keys().size() == 5;
+                    
+      allow update: if isOwner(userId) 
+                    && isValidId(entryId) 
+                    && isValidJournalEntry(incoming())
+                    && incoming().keys().hasAll(['id', 'date', 'reference', 'description', 'lines'])
+                    && incoming().keys().size() == 5
+                    && incoming().diff(existing()).affectedKeys().hasOnly(['date', 'reference', 'description', 'lines']);
+                    
+      allow delete: if isOwner(userId) 
+                    && isValidId(entryId);
+    }
+
+  }
+}
