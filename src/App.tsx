@@ -209,13 +209,13 @@ export default function App() {
                     setSelectedLedgerAccount(undefined);
                   }
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-xs transition-colors font-mono cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 ${
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-xs transition-colors font-mono cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-blue-500 ${
                   isActive 
-                    ? 'bg-slate-100 dark:bg-slate-800 text-slate-950 dark:text-white font-bold shadow-xs border border-slate-200 dark:border-slate-700' 
-                    : 'bg-transparent dark:bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white'
+                    ? 'sidebar-active-item bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-blue-300 font-bold shadow-xs border border-blue-200 dark:border-slate-700' 
+                    : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                <Icon className="h-4 w-4 shrink-0" />
+                <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-blue-700 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'}`} />
                 <span>{item.name}</span>
               </button>
             );
@@ -327,48 +327,12 @@ export default function App() {
           </div>
         </div>
         
-        <div className="flex items-center gap-1.5">
-          {/* Quick Language Toggle */}
-          <button
-            onClick={handleToggleLanguage}
-            title={language === 'id' ? 'Ganti ke English' : 'Switch to Bahasa Indonesia'}
-            className="px-2 py-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-[11px] font-mono font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
-          >
-            <Languages className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
-            <span>{language.toUpperCase()}</span>
-          </button>
-
-          {/* Quick Theme Toggle */}
-          <button
-            onClick={handleToggleTheme}
-            title={theme === 'dark' ? t('lightMode') : t('darkMode')}
-            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 flex items-center justify-center cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
-          >
-            {theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
-          </button>
-
-          {/* Print button */}
-          <button
-            onClick={() => setIsExportReportModalOpen(true)}
-            title="Print / Export PDF"
-            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
-          >
-            <Printer className="h-4 w-4" />
-          </button>
-
-          {/* Reset button */}
-          <button
-            onClick={handleResetData}
-            title="Reset"
-            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600"
-          >
-            <RefreshCw className="h-4 w-4" />
-          </button>
-
+        <div className="flex items-center gap-2">
           {/* Hamburger Menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 cursor-pointer shadow-2xs"
+            className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded text-slate-800 dark:text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-2xs"
+            aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -398,13 +362,13 @@ export default function App() {
                         setSelectedLedgerAccount(undefined);
                       }
                     }}
-                    className={`flex items-center gap-2 px-3 py-2 rounded text-xs font-mono cursor-pointer transition-colors focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-600 ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded text-xs font-mono cursor-pointer transition-colors focus:outline-hidden focus:ring-2 focus:ring-blue-500 ${
                       isActive 
-                        ? 'bg-slate-100 dark:bg-slate-800 text-slate-950 dark:text-white font-bold border border-slate-200 dark:border-slate-700 shadow-2xs' 
-                        : 'bg-transparent dark:bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-white'
+                        ? 'sidebar-active-item bg-blue-50 dark:bg-slate-800 text-blue-900 dark:text-blue-300 font-bold border border-blue-200 dark:border-slate-700 shadow-2xs' 
+                        : 'bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
-                    <Icon className="h-4 w-4 shrink-0" />
+                    <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-blue-700 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'}`} />
                     <span>{item.name}</span>
                   </button>
                 );
@@ -430,11 +394,11 @@ export default function App() {
         {/* Desktop Header */}
         <header className="hidden md:flex h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            <h2 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
               {navItems.find(item => item.id === currentView)?.name || 'Dashboard'}
             </h2>
             <span className="text-slate-300 dark:text-slate-700">|</span>
-            <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
               {isCloud ? (
                 <>
                   <Cloud className="h-3 w-3 text-emerald-500" />
@@ -452,52 +416,12 @@ export default function App() {
           <div className="flex items-center gap-3 text-xs font-mono">
             {/* Equation balance pill */}
             <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded text-[10px]">
-              <span className="text-slate-400 dark:text-slate-400">{t('dashEquationStatus').toUpperCase()}:</span>
+              <span className="text-slate-500 dark:text-slate-400">{t('dashEquationStatus').toUpperCase()}:</span>
               <span className={`font-bold flex items-center gap-1 ${summary.isBalanced ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-500'}`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${summary.isBalanced ? 'bg-emerald-600 dark:bg-emerald-400' : 'bg-amber-500'}`}></span>
                 {summary.isBalanced ? t('dashBalanced') : t('statusSelisih')}
               </span>
             </div>
-
-            {/* Clearly visible Print / Export PDF button */}
-            <button
-              onClick={() => setIsExportReportModalOpen(true)}
-              className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded-md font-mono font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
-              title="Generate accounting reports and export to PDF"
-              id="btn-print-export-pdf"
-            >
-              <Printer className="h-3.5 w-3.5" />
-              <span>{t('printExportPdf') || 'Print / Export PDF'}</span>
-            </button>
-
-            <span className="text-slate-200 dark:text-slate-700">|</span>
-
-            {/* Quick Language Switcher Button in Header */}
-            <button
-              type="button"
-              onClick={handleToggleLanguage}
-              className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-md font-mono font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
-              title={language === 'id' ? 'Ganti ke Bahasa Inggris (Switch to English)' : 'Switch to Bahasa Indonesia'}
-              id="btn-language-toggle"
-            >
-              <Languages className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
-              <span>{language.toUpperCase()}</span>
-            </button>
-
-            {/* Quick Dark / Light Mode Toggle Button in Header */}
-            <button
-              type="button"
-              onClick={handleToggleTheme}
-              className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-md text-slate-800 dark:text-slate-200 flex items-center justify-center transition-all shadow-2xs cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
-              title={theme === 'dark' ? t('lightMode') : t('darkMode')}
-              id="btn-theme-toggle"
-            >
-              {theme === 'dark' ? (
-                <Sun className="h-4 w-4 text-amber-400" />
-              ) : (
-                <Moon className="h-4 w-4 text-slate-700" />
-              )}
-            </button>
           </div>
         </header>
 
@@ -556,6 +480,8 @@ export default function App() {
                   profile={profile} 
                   isCloud={isCloud} 
                   onUpdateBio={updateBio} 
+                  onOpenExportModal={() => setIsExportReportModalOpen(true)}
+                  onNavigate={setCurrentView}
                 />
               )}
 
@@ -565,6 +491,7 @@ export default function App() {
                   isCloud={isCloud} 
                   onUpdateSettings={updateSettings} 
                   onResetCloudAccount={handleResetCloudAccount}
+                  onOpenExportModal={() => setIsExportReportModalOpen(true)}
                 />
               )}
             </motion.div>

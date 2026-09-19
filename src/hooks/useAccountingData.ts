@@ -7,9 +7,6 @@ import {
   collection, 
   onSnapshot, 
   writeBatch,
-  query,
-  orderBy,
-  getDocs,
   deleteDoc
 } from 'firebase/firestore';
 import { Account, JournalEntry } from '../types';
@@ -37,7 +34,6 @@ export function useAccountingData() {
   const [loading, setLoading] = useState(true);
   const [isCloud, setIsCloud] = useState(false);
 
-  // Authentication & Session management
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true);
@@ -55,7 +51,6 @@ export function useAccountingData() {
           let userProfileData: UserProfile;
 
           if (!userDocSnap.exists()) {
-            // First time login - Create Firestore profile
             userProfileData = {
               uid: currentUser.uid,
               email: currentUser.email || '',
@@ -68,13 +63,10 @@ export function useAccountingData() {
               language: 'id'
             };
 
-            // Write User Profile with exact 9 required keys
             await setDoc(userDocRef, userProfileData).catch(err => {
               handleFirestoreError(err, OperationType.CREATE, `users/${currentUser.uid}`);
             });
-
           } else {
-            // Existing user - Update last login timestamp preserving createdAt, bio, theme, language
             const existingData = userDocSnap.data() as UserProfile;
             userProfileData = {
               uid: currentUser.uid,
@@ -94,12 +86,10 @@ export function useAccountingData() {
           }
 
           setProfile(userProfileData);
-
         } catch (error) {
           console.error("Failed to sync user session in Firestore:", error);
         }
       } else {
-        // No Google authenticated user
         setUser(null);
         setIsCloud(false);
         
@@ -118,7 +108,6 @@ export function useAccountingData() {
           language: guestLanguage
         });
 
-        // Fallback to local storage for guest session
         const storedAccounts = localStorage.getItem('indoledger_accounts');
         const storedEntries = localStorage.getItem('indoledger_journal_entries');
 
@@ -126,7 +115,7 @@ export function useAccountingData() {
           try {
             setAccounts(JSON.parse(storedAccounts));
             setEntries(JSON.parse(storedEntries));
-          } catch (err) {
+          } catch {
             setAccounts(initialAccounts);
             setEntries(initialJournalEntries);
           }
@@ -143,7 +132,6 @@ export function useAccountingData() {
     return () => unsubscribe();
   }, []);
 
-  // Real-time Firestore Subscriptions for authenticated cloud session
   useEffect(() => {
     if (!user) return;
 
@@ -152,7 +140,6 @@ export function useAccountingData() {
 
     setLoading(true);
 
-    // Subscribe to accounts
     const unsubscribeAccounts = onSnapshot(
       collection(db, 'users', user.uid, 'accounts'),
       (snapshot) => {
@@ -160,7 +147,6 @@ export function useAccountingData() {
         snapshot.forEach((doc) => {
           accList.push(doc.data() as Account);
         });
-        // Sort accounts by code for consistency
         accList.sort((a, b) => a.code.localeCompare(b.code));
         setAccounts(accList);
       },
@@ -169,7 +155,6 @@ export function useAccountingData() {
       }
     );
 
-    // Subscribe to journal entries
     const unsubscribeEntries = onSnapshot(
       collection(db, 'users', user.uid, 'journalEntries'),
       (snapshot) => {
@@ -177,7 +162,6 @@ export function useAccountingData() {
         snapshot.forEach((doc) => {
           entryList.push(doc.data() as JournalEntry);
         });
-        // Sort entries by date desc, then by id/reference desc
         entryList.sort((a, b) => {
           const dateDiff = b.date.localeCompare(a.date);
           if (dateDiff !== 0) return dateDiff;
@@ -197,15 +181,28 @@ export function useAccountingData() {
     };
   }, [user]);
 
-  // Actions
   const addEntry = async (newEntry: JournalEntry) => {
     if (user) {
-      const path = `users/${user.uid}/journalEntries/${newEntry.id}`;
-      await setDoc(doc(db, 'users', user.uid, 'journalEntries', newEntry.id), newEntry)
-        .catch(err => {
-          handleFirestoreError(err, OperationType.CREATE, path);
-          throw err;
+      setLoading(true);
+      try {
+        const postJournalEntryFn = httpsCallable<
+          { entryData: JournalEntry }, 
+          { success: boolean; entryId: string; message: string }
+        >(functions, 'postJournalEntry');
+        
+        const response = await postJournalEntryFn({ entryData: newEntry });
+        return response.data;
+      } catch (err: any) {
+        console.error('Server rejected journal entry payload:', {
+          code: err?.code || 'unknown',
+          message: err?.message || 'Transaction rejected',
+          details: err?.details || null,
+          payload: newEntry
         });
+        throw err;
+      } finally {
+        setLoading(false);
+      }
     } else {
       const updated = [newEntry, ...entries];
       setEntries(updated);
@@ -292,18 +289,12 @@ export function useAccountingData() {
     if (user) {
       setLoading(true);
       try {
+        const resetCloudFn = httpsCallable(functions, 'resetUserAccount');
+        await resetCloudFn().catch(err => {
+          console.warn("Cloud function reset warning:", err);
+        });
+
         const batch = writeBatch(db);
-
-        // Delete existing custom accounts & entries
-        // Note: Batch deletion in subcollections
-        accounts.forEach(acc => {
-          batch.delete(doc(db, 'users', user.uid, 'accounts', acc.code));
-        });
-        entries.forEach(entry => {
-          batch.delete(doc(db, 'users', user.uid, 'journalEntries', entry.id));
-        });
-
-        // Set new accounts
         initialAccounts.forEach(acc => {
           const accData = {
             ...acc,
@@ -312,16 +303,23 @@ export function useAccountingData() {
           batch.set(doc(db, 'users', user.uid, 'accounts', acc.code), accData);
         });
 
-        // Only set seeded entries if not resetting to zero
-        if (!clearAllToZero) {
-          initialJournalEntries.forEach(entry => {
-            batch.set(doc(db, 'users', user.uid, 'journalEntries', entry.id), entry);
-          });
-        }
-
         await batch.commit().catch(err => {
           handleFirestoreError(err, OperationType.WRITE, `users/${user.uid}/[reset]`);
         });
+
+        if (!clearAllToZero) {
+          for (const entry of initialJournalEntries) {
+            try {
+              const postJournalEntryFn = httpsCallable<
+                { entryData: JournalEntry }, 
+                { success: boolean; entryId: string; message: string }
+              >(functions, 'postJournalEntry');
+              await postJournalEntryFn({ entryData: entry });
+            } catch (err) {
+              console.warn("Failed seeding initial entry through function:", err);
+            }
+          }
+        }
       } catch (error) {
         console.error("Reset data on Firestore failed:", error);
       } finally {
@@ -383,7 +381,6 @@ export function useAccountingData() {
           throw err;
         });
     } else {
-      // Offline/Guest local fallback
       const updatedProfile = profile ? { ...profile, bio: newBio } : {
         uid: 'guest',
         email: 'guest@vast-erp.local',
@@ -404,8 +401,8 @@ export function useAccountingData() {
     if (user && profile) {
       const updatedProfile = { 
         ...profile, 
-        theme,
-        language,
+        theme, 
+        language, 
         lastLoginAt: new Date().toISOString() 
       };
       const path = `users/${user.uid}`;
@@ -418,7 +415,6 @@ export function useAccountingData() {
           throw err;
         });
     } else {
-      // Offline/Guest local fallback
       const updatedProfile = profile ? { ...profile, theme, language } : {
         uid: 'guest',
         email: 'guest@vast-erp.local',
@@ -440,29 +436,12 @@ export function useAccountingData() {
     if (!user) return;
     setLoading(true);
     try {
-      // 1. Fetch all existing journal entries and accounts directly from Firestore to ensure clean deletion
-      const entriesSnap = await getDocs(collection(db, 'users', user.uid, 'journalEntries')).catch(err => {
-        handleFirestoreError(err, OperationType.GET, `users/${user.uid}/journalEntries`);
-        throw err;
-      });
-      const accountsSnap = await getDocs(collection(db, 'users', user.uid, 'accounts')).catch(err => {
-        handleFirestoreError(err, OperationType.GET, `users/${user.uid}/accounts`);
-        throw err;
+      const resetCloudFn = httpsCallable(functions, 'resetUserAccount');
+      await resetCloudFn().catch(err => {
+        console.warn("Cloud function reset warning:", err);
       });
 
       const batch = writeBatch(db);
-
-      // 2. Queue all existing journal entries for deletion
-      entriesSnap.forEach(docSnap => {
-        batch.delete(docSnap.ref);
-      });
-
-      // 3. Queue all existing accounts for deletion (to clean any custom added accounts)
-      accountsSnap.forEach(docSnap => {
-        batch.delete(docSnap.ref);
-      });
-
-      // 4. Seed the default accounts back with an initial balance of 0
       initialAccounts.forEach(acc => {
         const accData = {
           ...acc,
@@ -471,13 +450,10 @@ export function useAccountingData() {
         batch.set(doc(db, 'users', user.uid, 'accounts', acc.code), accData);
       });
 
-      // 5. Commit batch write to Firestore
       await batch.commit().catch(err => {
         handleFirestoreError(err, OperationType.WRITE, `users/${user.uid}/reset-cloud`);
         throw err;
       });
-
-      console.log("Cloud account data successfully reset to zero. User profile and session preserved.");
     } catch (error) {
       console.error("Reset cloud account failed:", error);
       throw error;

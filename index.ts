@@ -1,4 +1,4 @@
-import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { onCall, CallableRequest, HttpsError } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
 
@@ -15,6 +15,35 @@ function getFirestoreInstance() {
     return admin.firestore();
   }
 }
+
+/**
+ * These callables run with Admin SDK privileges, so they bypass
+ * firestore.rules entirely. Every gate the rules enforce has to be re-asserted
+ * here or the function becomes the way around the rules.
+ *
+ * Mirrors isVerifiedUser() in firestore.rules.
+ */
+function requireVerifiedUid(request: CallableRequest): string {
+  if (!request.auth) {
+    throw new HttpsError(
+      "unauthenticated",
+      "Authentication required."
+    );
+  }
+
+  if (request.auth.token.email_verified !== true) {
+    throw new HttpsError(
+      "permission-denied",
+      "A verified email address is required before writing ledger data."
+    );
+  }
+
+  return request.auth.uid;
+}
+
+// Caps concurrent instances so a hostile or looping client cannot turn a
+// callable into an unbounded billing event (denial of wallet).
+const CALLABLE_OPTIONS = { maxInstances: 10 } as const;
 
 interface IncomingJournalLine {
   id?: unknown;
@@ -38,15 +67,8 @@ interface SanitizedJournalEntry {
   lines: SanitizedJournalLine[];
 }
 
-export const postJournalEntry = onCall(async (request) => {
-  if (!request.auth) {
-    throw new HttpsError(
-      "unauthenticated",
-      "Authentication required to post journal entries."
-    );
-  }
-
-  const uid = request.auth.uid;
+export const postJournalEntry = onCall(CALLABLE_OPTIONS, async (request) => {
+  const uid = requireVerifiedUid(request);
   const entryData = request.data?.entryData;
 
   if (!entryData || typeof entryData !== "object" || Array.isArray(entryData)) {
@@ -177,12 +199,27 @@ export const postJournalEntry = onCall(async (request) => {
   };
 
   const db = getFirestoreInstance();
-  await db
+  const entryRef = db
     .collection("users")
     .doc(uid)
     .collection("journalEntries")
-    .doc(id)
-    .set(sanitizedEntry);
+    .doc(id);
+
+  // `create()` rejects if the document already exists. `set()` silently
+  // overwrote it, which let a caller replay an existing entry ID and rewrite
+  // posted history - a direct violation of the immutability invariant.
+  try {
+    await entryRef.create(sanitizedEntry);
+  } catch (err) {
+    const code = (err as { code?: number | string })?.code;
+    if (code === 6 || code === "already-exists") {
+      throw new HttpsError(
+        "already-exists",
+        `Journal entry '${id}' has already been posted. Posted entries are immutable; void it and post a correcting entry instead.`
+      );
+    }
+    throw err;
+  }
 
   return {
     success: true,
@@ -191,15 +228,8 @@ export const postJournalEntry = onCall(async (request) => {
   };
 });
 
-export const resetUserAccount = onCall(async (request) => {
-  if (!request.auth) {
-    throw new HttpsError(
-      "unauthenticated",
-      "The request must be authenticated to reset the account."
-    );
-  }
-
-  const uid = request.auth.uid;
+export const resetUserAccount = onCall(CALLABLE_OPTIONS, async (request) => {
+  const uid = requireVerifiedUid(request);
   const db = getFirestoreInstance();
   const batchSize = 500;
 

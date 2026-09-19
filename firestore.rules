@@ -1,28 +1,41 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Global Safety Net: default-deny catch-all
-    match /{document=**} {
-      allow read, write: if false;
-    }
 
-    // --- Core Reusable Helpers ---
+    // NOTE: Firestore evaluates match blocks as a UNION - a rule that denies in
+    // one block cannot cancel an `allow` in another. A global
+    // `match /{document=**} { allow read, write: if false; }` is therefore a
+    // no-op that only creates a false sense of protection. Deny-by-default is
+    // already implicit: any path with no matching `allow` is denied.
+
+    // ---------------------------------------------------------------
+    // Auth gates
+    // ---------------------------------------------------------------
+
     function isSignedIn() {
       return request.auth != null;
     }
 
+    // Spec section 1, "Verification Requirement": a verified email is required
+    // before any data write. `email_verified` is absent from some token shapes,
+    // so read it defensively instead of dereferencing it directly.
     function isVerifiedUser() {
-      return isSignedIn();
+      return isSignedIn()
+          && request.auth.token.get('email_verified', false) == true;
     }
 
     function isOwner(userId) {
       return isVerifiedUser() && request.auth.uid == userId;
     }
 
+    // ---------------------------------------------------------------
+    // Shared validators
+    // ---------------------------------------------------------------
+
     function isValidId(id) {
-      return id is string 
-          && id.size() <= 128 
+      return id is string
+          && id.size() > 0
+          && id.size() <= 128
           && id.matches('^[a-zA-Z0-9_\\-]+$');
     }
 
@@ -34,21 +47,30 @@ service cloud.firestore {
       return resource.data;
     }
 
-    // --- Entity-Specific Validation Blueprints ---
-
-    // User document validation
     function isValidUser(data) {
-      return data.uid is string 
-          && data.uid == request.auth.uid 
+      return data.keys().hasAll(['uid', 'email', 'displayName', 'photoURL', 'createdAt', 'lastLoginAt', 'bio', 'theme', 'language'])
+          && data.keys().hasOnly(['uid', 'email', 'displayName', 'photoURL', 'createdAt', 'lastLoginAt', 'bio', 'theme', 'language'])
+          && data.uid is string
+          && data.uid == request.auth.uid
+          && data.uid.size() > 0
           && data.uid.size() <= 128
-          && data.email is string 
+          && data.uid.matches('^[a-zA-Z0-9_\\-]+$')
+          && data.email is string
           && data.email == request.auth.token.email
+          && data.email.size() > 0
           && data.email.size() <= 128
-          && data.displayName is string 
+          && data.displayName is string
+          && data.displayName.size() > 0
           && data.displayName.size() <= 100
-          && data.photoURL is string 
+          && data.photoURL is string
           && data.photoURL.size() <= 5000
-          && data.bio is string 
+          && data.createdAt is string
+          && data.createdAt.size() > 0
+          && data.createdAt.size() <= 64
+          && data.lastLoginAt is string
+          && data.lastLoginAt.size() > 0
+          && data.lastLoginAt.size() <= 64
+          && data.bio is string
           && data.bio.size() <= 500
           && data.theme is string
           && data.theme in ['light', 'dark']
@@ -56,92 +78,93 @@ service cloud.firestore {
           && data.language in ['en', 'id'];
     }
 
-    // Account validation
     function isValidAccount(data) {
-      return data.code is string 
+      return data.keys().hasAll(['code', 'name', 'type', 'normalBalance', 'initialBalance'])
+          && data.keys().hasOnly(['code', 'name', 'type', 'normalBalance', 'initialBalance'])
+          && data.code is string
+          && data.code.size() > 0
           && data.code.size() <= 32
-          && data.name is string 
+          && data.code.matches('^[a-zA-Z0-9_\\-]+$')
+          && data.name is string
+          && data.name.size() > 0
           && data.name.size() <= 100
-          && data.type is string 
+          && data.type is string
           && data.type in ['asset', 'liability', 'equity', 'revenue', 'expense']
-          && data.normalBalance is string 
+          && data.normalBalance is string
           && data.normalBalance in ['debit', 'credit']
-          && data.initialBalance is number;
+          && data.initialBalance is number
+          && data.initialBalance >= -1000000000000000
+          && data.initialBalance <= 1000000000000000;
     }
 
-    // Journal Entry validation
-    function isValidJournalEntry(data) {
-      return data.id is string 
-          && data.id.size() <= 128
-          && data.date is string 
-          && data.date.size() == 10
-          && data.reference is string 
-          && data.reference.size() <= 50
-          && data.description is string 
-          && data.description.size() <= 500
-          && data.lines is list 
-          && data.lines.size() <= 100;
-    }
+    // ---------------------------------------------------------------
+    // /users/{userId}
+    // ---------------------------------------------------------------
 
-    // --- Match Rules ---
-
-    // Users collection
     match /users/{userId} {
+      // `get` only, never `list`: a collection-level read would let any signed
+      // in user enumerate every account holder.
       allow get: if isOwner(userId);
-      
-      allow create: if isOwner(userId) 
+
+      allow create: if isOwner(userId)
+                    && isValidId(userId)
+                    && isValidUser(incoming());
+
+      allow update: if isOwner(userId)
                     && isValidUser(incoming())
-                    && incoming().keys().hasAll(['uid', 'email', 'displayName', 'photoURL', 'createdAt', 'lastLoginAt', 'bio', 'theme', 'language'])
-                    && incoming().keys().size() == 9;
-                    
-      allow update: if isOwner(userId) 
-                    && isValidUser(incoming())
-                    && incoming().keys().hasAll(['uid', 'email', 'displayName', 'photoURL', 'createdAt', 'lastLoginAt', 'bio', 'theme', 'language'])
-                    && incoming().keys().size() == 9
-                    && incoming().uid == existing().get('uid', incoming().uid)
-                    && incoming().email == existing().get('email', incoming().email)
-                    && incoming().createdAt == existing().get('createdAt', incoming().createdAt);
+                    && incoming().uid == existing().uid
+                    && incoming().email == existing().email
+                    && incoming().createdAt == existing().createdAt
+                    && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'lastLoginAt', 'bio', 'theme', 'language']);
+
+      // Profile deletion stays denied: removing the parent document would
+      // orphan the accounts and journalEntries subcollections.
+      allow delete: if false;
     }
 
-    // Accounts subcollection
+    // ---------------------------------------------------------------
+    // /users/{userId}/accounts/{accountCode}
+    // ---------------------------------------------------------------
+
     match /users/{userId}/accounts/{accountCode} {
       allow read: if isOwner(userId);
-      
-      allow create: if isOwner(userId) 
-                    && isValidId(accountCode) 
+
+      allow create: if isOwner(userId)
+                    && isValidId(accountCode)
+                    && accountCode == incoming().code
+                    && isValidAccount(incoming());
+
+      allow update: if isOwner(userId)
+                    && isValidId(accountCode)
+                    && accountCode == incoming().code
                     && isValidAccount(incoming())
-                    && incoming().keys().hasAll(['code', 'name', 'type', 'normalBalance', 'initialBalance'])
-                    && incoming().keys().size() == 5;
-                    
-      allow update: if isOwner(userId) 
-                    && isValidId(accountCode) 
-                    && isValidAccount(incoming())
-                    && incoming().keys().hasAll(['code', 'name', 'type', 'normalBalance', 'initialBalance'])
-                    && incoming().keys().size() == 5
+                    && incoming().code == existing().code
                     && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'type', 'normalBalance', 'initialBalance']);
-                    
-      allow delete: if isOwner(userId) 
+
+      allow delete: if isOwner(userId)
                     && isValidId(accountCode);
     }
 
-    // Journal Entries subcollection
+    // ---------------------------------------------------------------
+    // /users/{userId}/journalEntries/{entryId}
+    // ---------------------------------------------------------------
+
     match /users/{userId}/journalEntries/{entryId} {
       allow read: if isOwner(userId);
-      
-      allow create: if isOwner(userId) 
-                    && isValidId(entryId) 
-                    && isValidJournalEntry(incoming())
-                    && incoming().keys().hasAll(['id', 'date', 'reference', 'description', 'lines'])
-                    && incoming().keys().size() == 5;
-                    
-      allow update: if isOwner(userId) 
-                    && isValidId(entryId) 
-                    && isValidJournalEntry(incoming())
-                    && incoming().keys().hasAll(['id', 'date', 'reference', 'description', 'lines'])
-                    && incoming().keys().size() == 5
-                    && incoming().diff(existing()).affectedKeys().hasOnly(['date', 'reference', 'description', 'lines']);
-                    
-      allow delete: if isOwner(userId) 
+
+      // Ledger writes are server-authoritative. Creates go through the
+      // `postJournalEntry` callable, which enforces double-entry balance, line
+      // schema and create-only immutability via the Admin SDK (which bypasses
+      // these rules). Keeping create/update denied here is what makes that
+      // function impossible to route around from the client.
+      allow create, update: if false;
+
+      // Delete stays client-side: the app's deleteEntry() calls deleteDoc()
+      // directly, and the previous blanket `write: if false` broke it with
+      // PERMISSION_DENIED. Voiding an entry is owner-scoped with no
+      // cross-document invariant to enforce, so ownership plus ID validity is
+      // sufficient.
+      allow delete: if isOwner(userId)
                     && isValidId(entryId);
     }
 

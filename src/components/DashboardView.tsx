@@ -86,15 +86,15 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
       const parts = dateStr.split('-');
       if (parts.length === 3) {
         const day = parts[2];
-        const monthNamesID = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        const monthNamesEN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const monthNamesID = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGU', 'SEP', 'OKT', 'NOV', 'DES'];
+        const monthNamesEN = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
         const monthNames = language === 'en' ? monthNamesEN : monthNamesID;
         const monthIdx = parseInt(parts[1], 10) - 1;
-        return `${day} ${monthNames[monthIdx] || parts[1]}`;
+        return `${day} ${monthNames[monthIdx] || parts[1]}`.toUpperCase();
       }
-      return dateStr;
+      return dateStr.toUpperCase();
     } catch {
-      return dateStr;
+      return dateStr.toUpperCase();
     }
   };
 
@@ -221,14 +221,14 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
               <h3 className="text-xs font-bold font-sans text-slate-950 dark:text-white uppercase tracking-wider">{t('dashTrendTitle')}</h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('dashTrendDesc')}</p>
             </div>
-            <div className="flex gap-3 text-[10px] font-mono">
-              <div className="flex items-center gap-1">
-                <span className={`inline-block w-2.5 h-2.5 ${isDarkMode ? 'bg-blue-500' : 'bg-slate-900'} rounded-xs`}></span>
-                <span className="text-slate-700 dark:text-slate-300">{t('dashRevenue')}</span>
+            <div className="flex gap-4 text-[10px] font-mono uppercase tracking-wider">
+              <div className="flex items-center gap-1.5">
+                <span className={`inline-block w-2.5 h-2.5 rounded-sm ${isDarkMode ? 'bg-sky-400' : 'bg-blue-600'}`}></span>
+                <span className="text-slate-700 dark:text-slate-300 font-semibold">{t('dashRevenue')}</span>
               </div>
-              <div className="flex items-center gap-1">
-                <span className={`inline-block w-2.5 h-2.5 ${isDarkMode ? 'bg-rose-500' : 'bg-slate-400'} rounded-xs`}></span>
-                <span className="text-slate-700 dark:text-slate-300">{t('dashExpense')}</span>
+              <div className="flex items-center gap-1.5">
+                <span className={`inline-block w-2.5 h-2.5 rounded-sm ${isDarkMode ? 'bg-rose-400' : 'bg-rose-600'}`}></span>
+                <span className="text-slate-700 dark:text-slate-300 font-semibold">{t('dashExpense')}</span>
               </div>
             </div>
           </div>
@@ -238,61 +238,93 @@ export default function DashboardView({ accounts, entries, onNavigate, onSelectA
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={formattedChartData}
-                  margin={{ top: 5, right: 5, left: -20, bottom: 0 }}
+                  margin={{ top: 10, right: 10, left: -20, bottom: 4 }}
                 >
                   <defs>
                     <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={isDarkMode ? '#3b82f6' : '#0f172a'} stopOpacity={0.15}/>
-                      <stop offset="95%" stopColor={isDarkMode ? '#3b82f6' : '#0f172a'} stopOpacity={0}/>
+                      <stop offset="0%" stopColor={isDarkMode ? '#38bdf8' : '#2563eb'} stopOpacity={isDarkMode ? 0.35 : 0.40} />
+                      <stop offset="50%" stopColor={isDarkMode ? '#38bdf8' : '#2563eb'} stopOpacity={isDarkMode ? 0.12 : 0.15} />
+                      <stop offset="100%" stopColor={isDarkMode ? '#38bdf8' : '#2563eb'} stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={isDarkMode ? '#f43f5e' : '#64748b'} stopOpacity={0.1}/>
-                      <stop offset="95%" stopColor={isDarkMode ? '#f43f5e' : '#64748b'} stopOpacity={0}/>
+                      <stop offset="0%" stopColor={isDarkMode ? '#fb7185' : '#e11d48'} stopOpacity={isDarkMode ? 0.28 : 0.32} />
+                      <stop offset="50%" stopColor={isDarkMode ? '#fb7185' : '#e11d48'} stopOpacity={isDarkMode ? 0.10 : 0.12} />
+                      <stop offset="100%" stopColor={isDarkMode ? '#fb7185' : '#e11d48'} stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#334155' : '#f1f5f9'} />
+                  <CartesianGrid 
+                    strokeDasharray="3 3" 
+                    vertical={false} 
+                    stroke={isDarkMode ? '#334155' : '#e2e8f0'} 
+                    strokeOpacity={isDarkMode ? 0.35 : 0.7} 
+                  />
                   <XAxis 
                     dataKey="formattedDate" 
                     tickLine={false} 
                     axisLine={false}
-                    tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 9, fontFamily: 'monospace' }}
+                    tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 9, fontFamily: 'monospace', letterSpacing: '0.05em' }}
+                    dy={6}
                   />
                   <YAxis 
                     tickLine={false} 
                     axisLine={false}
-                    tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 9, fontFamily: 'monospace' }}
-                    tickFormatter={(value) => `Rp ${(value / 1000000).toFixed(0)}Jt`}
+                    tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 9, fontFamily: 'monospace', letterSpacing: '0.05em' }}
+                    tickFormatter={(value) => language === 'en' ? `RP ${(value / 1000000).toFixed(0)}M` : `RP ${(value / 1000000).toFixed(0)}JT`}
+                    dx={-2}
                   />
                   <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: isDarkMode ? '#0f172a' : '#0f172a', 
-                      borderColor: isDarkMode ? '#334155' : '#1e293b', 
-                      color: '#ffffff',
-                      borderRadius: '4px',
-                      fontSize: '11px',
-                      fontFamily: 'monospace'
+                    cursor={{ stroke: isDarkMode ? '#94a3b8' : '#3b82f6', strokeWidth: 1.5, strokeDasharray: '2 2' }}
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="bg-white dark:bg-slate-950 rounded-md border border-slate-300 dark:border-slate-700 p-3 min-w-[210px] text-slate-900 dark:text-white shadow-md pointer-events-none">
+                            <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 pb-1.5 mb-2 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                              <span>{label}</span>
+                              <span className="text-[9px] font-mono text-slate-400 dark:text-slate-500 uppercase">SYS // {t('dashDate')}</span>
+                            </div>
+                            <div className="space-y-1.5">
+                              {payload.map((item: any, idx: number) => (
+                                <div key={`tooltip-${idx}`} className="flex items-center justify-between gap-3 text-xs font-mono">
+                                  <div className="flex items-center gap-2">
+                                    <span
+                                      className="w-2.5 h-2.5 rounded-sm shrink-0"
+                                      style={{ backgroundColor: item.stroke || item.color }}
+                                    />
+                                    <span className="text-[11px] font-mono uppercase text-slate-600 dark:text-slate-300">
+                                      {item.name}
+                                    </span>
+                                  </div>
+                                  <span className="font-mono text-xs font-bold text-slate-900 dark:text-white tracking-tight">
+                                    {formatRupiah(Number(item.value || 0))}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
                     }}
-                    labelStyle={{ fontWeight: 'bold', color: '#e2e8f0' }}
-                    formatter={(value: any) => [formatRupiah(Number(value)), '']}
                   />
                   <Area 
                     name={t('dashRevenue')} 
                     type="monotone" 
                     dataKey="revenue" 
-                    stroke={isDarkMode ? '#3b82f6' : '#0f172a'} 
-                    strokeWidth={1.5}
+                    stroke={isDarkMode ? '#38bdf8' : '#2563eb'} 
+                    strokeWidth={2.5}
                     fillOpacity={1} 
                     fill="url(#colorRevenue)" 
+                    activeDot={{ r: 4.5, strokeWidth: 2, stroke: isDarkMode ? '#0f172a' : '#ffffff', fill: isDarkMode ? '#38bdf8' : '#2563eb' }}
                   />
                   <Area 
                     name={t('dashExpense')} 
                     type="monotone" 
                     dataKey="expense" 
-                    stroke={isDarkMode ? '#f43f5e' : '#64748b'} 
-                    strokeWidth={1.25}
-                    strokeDasharray="4 4"
+                    stroke={isDarkMode ? '#fb7185' : '#e11d48'} 
+                    strokeWidth={2.5}
                     fillOpacity={1} 
                     fill="url(#colorExpense)" 
+                    activeDot={{ r: 4.5, strokeWidth: 2, stroke: isDarkMode ? '#0f172a' : '#ffffff', fill: isDarkMode ? '#fb7185' : '#e11d48' }}
                   />
                 </AreaChart>
               </ResponsiveContainer>

@@ -20,7 +20,8 @@ import {
   Moon,
   Sun,
   Languages,
-  Trash2
+  Trash2,
+  Printer
 } from 'lucide-react';
 
 interface SettingsViewProps {
@@ -28,14 +29,15 @@ interface SettingsViewProps {
   isCloud: boolean;
   onUpdateSettings: (theme: string, language: string) => Promise<void>;
   onResetCloudAccount: () => Promise<void>;
+  onOpenExportModal?: () => void;
 }
 
-export default function SettingsView({ profile, isCloud, onUpdateSettings, onResetCloudAccount }: SettingsViewProps) {
+export default function SettingsView({ profile, isCloud, onUpdateSettings, onResetCloudAccount, onOpenExportModal }: SettingsViewProps) {
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
   
-  // Tabs: 'appearance' | 'language' | 'security'
-  const [activeTab, setActiveTab] = useState<'appearance' | 'language' | 'security'>(isCloud ? 'security' : 'appearance');
+  // Tabs: 'appearance' | 'language' | 'reports' | 'security'
+  const [activeTab, setActiveTab] = useState<'appearance' | 'language' | 'reports' | 'security'>(isCloud ? 'security' : 'appearance');
   
   // Selected theme and language tracked locally for explicit save if wanted
   const [selectedTheme, setSelectedTheme] = useState<'light' | 'dark'>(theme);
@@ -227,6 +229,18 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
         >
           <Globe className="h-3.5 w-3.5" />
           {t('languageTab')}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('reports')}
+          className={`flex items-center gap-2 px-5 py-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer focus:outline-hidden ${
+            activeTab === 'reports'
+              ? 'border-slate-900 text-slate-900 dark:border-slate-100 dark:text-white font-bold'
+              : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <Printer className="h-3.5 w-3.5" />
+          {language === 'en' ? 'Print / Export PDF' : 'Cetak / Ekspor PDF'}
         </button>
 
         <button
@@ -451,6 +465,78 @@ export default function SettingsView({ profile, isCloud, onUpdateSettings, onRes
                   >
                     {isSavingSettings && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                     <span>{t('applyLanguage')}</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'reports' && (
+            <motion.div
+              key="reports"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              className="space-y-6"
+            >
+              <div>
+                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono flex items-center gap-2">
+                  <Printer className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  {language === 'en' ? 'Financial Reports & PDF Export' : 'Laporan Keuangan & Ekspor PDF'}
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  {language === 'en' 
+                    ? 'Generate, preview, and print formal accounting statements and ledgers formatted for compliance and audit archival.' 
+                    : 'Hasilkan, pratinjau, dan cetak laporan akuntansi formal dan buku besar yang diformat untuk kepatuhan dan arsip audit.'}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col justify-between space-y-4">
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white font-mono">
+                      {language === 'en' ? 'Standard Financial Statement Package' : 'Paket Laporan Keuangan Standar'}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                      {language === 'en'
+                        ? 'Includes Balance Sheet (Neraca), Income Statement (Laba Rugi), and Trial Balance (Neraca Saldo).'
+                        : 'Mencakup Neraca, Laporan Laba Rugi, dan Neraca Saldo.'}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onOpenExportModal?.()}
+                    className="w-full px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 rounded-md font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer"
+                  >
+                    <Printer className="h-3.5 w-3.5" />
+                    <span>{language === 'en' ? 'Open Export Dialog' : 'Buka Dialog Ekspor'}</span>
+                  </button>
+                </div>
+
+                <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col justify-between space-y-4">
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white font-mono">
+                      {language === 'en' ? 'Browser Print & PDF Export' : 'Cetak Browser & Ekspor PDF'}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                      {language === 'en'
+                        ? 'Directly trigger your browser print dialog to save as PDF or print hard copies.'
+                        : 'Picu langsung dialog cetak browser Anda untuk menyimpan sebagai PDF atau mencetak hard copy.'}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (onOpenExportModal) {
+                        onOpenExportModal();
+                      } else {
+                        window.print();
+                      }
+                    }}
+                    className="w-full px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-600 rounded-md font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Printer className="h-3.5 w-3.5" />
+                    <span>{language === 'en' ? 'Print Statement Package' : 'Cetak Paket Laporan'}</span>
                   </button>
                 </div>
               </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { UserProfile } from '../hooks/useAccountingData';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import { 
   Mail, 
   Clock, 
@@ -9,18 +10,25 @@ import {
   Save, 
   CheckCircle, 
   Cloud, 
-  Database,
-  Lock
+  Database, 
+  Lock,
+  Sun,
+  Moon,
+  Languages,
+  Printer
 } from 'lucide-react';
 
 interface ProfileViewProps {
   profile: UserProfile | null;
   isCloud: boolean;
   onUpdateBio: (bio: string) => Promise<void>;
+  onOpenExportModal?: () => void;
+  onNavigate?: (view: any) => void;
 }
 
-export default function ProfileView({ profile, isCloud, onUpdateBio }: ProfileViewProps) {
-  const { t, language } = useLanguage();
+export default function ProfileView({ profile, isCloud, onUpdateBio, onOpenExportModal, onNavigate }: ProfileViewProps) {
+  const { t, language, setLanguage } = useLanguage();
+  const { theme, setTheme } = useTheme();
   const [bioInput, setBioInput] = useState(profile?.bio || '');
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -53,6 +61,14 @@ export default function ProfileView({ profile, isCloud, onUpdateBio }: ProfileVi
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleToggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  const handleToggleLanguage = () => {
+    setLanguage(language === 'id' ? 'en' : 'id');
   };
 
   // Format date correctly
@@ -103,7 +119,7 @@ export default function ProfileView({ profile, isCloud, onUpdateBio }: ProfileVi
               className="w-20 h-20 rounded-full border-2 border-slate-200 dark:border-white/20 shadow-xs object-cover" 
             />
           ) : (
-            <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-white/10 flex items-center justify-center font-mono font-black text-2xl text-slate-700 dark:text-white shadow-xs">
+            <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-white/10 flex items-center justify-center font-mono font-black text-2xl text-slate-700 dark:white shadow-xs">
               {profile.displayName.substring(0, 2).toUpperCase()}
             </div>
           )}
@@ -204,8 +220,67 @@ export default function ProfileView({ profile, isCloud, onUpdateBio }: ProfileVi
           </motion.div>
         </div>
 
-        {/* Sidebar Info Panel */}
+        {/* Sidebar Info & Controls Panel */}
         <div className="space-y-6">
+          {/* Quick Preferences Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-xs"
+          >
+            <h4 className="text-xs font-bold font-mono text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+              {language === 'en' ? 'Preferences & Actions' : 'Preferensi & Aksi'}
+            </h4>
+
+            <div className="space-y-2.5">
+              {/* Color Scheme */}
+              <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700">
+                <div className="flex items-center gap-2">
+                  {theme === 'dark' ? <Moon className="h-4 w-4 text-blue-400" /> : <Sun className="h-4 w-4 text-amber-500" />}
+                  <span className="text-xs font-mono text-slate-700 dark:text-slate-300">
+                    {language === 'en' ? 'Color Scheme' : 'Skema Warna'}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleToggleTheme}
+                  className="px-2.5 py-1 bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded text-[11px] font-mono font-bold text-slate-800 dark:text-slate-200 shadow-2xs cursor-pointer"
+                >
+                  {theme === 'dark' ? t('darkMode') : t('lightMode')}
+                </button>
+              </div>
+
+              {/* Language Switcher */}
+              <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700">
+                <div className="flex items-center gap-2">
+                  <Languages className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                  <span className="text-xs font-mono text-slate-700 dark:text-slate-300">
+                    {language === 'en' ? 'Language' : 'Bahasa'}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleToggleLanguage}
+                  className="px-2.5 py-1 bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded text-[11px] font-mono font-bold text-slate-800 dark:text-slate-200 shadow-2xs cursor-pointer"
+                >
+                  {language === 'en' ? 'English (EN)' : 'Indonesia (ID)'}
+                </button>
+              </div>
+
+              {/* Print / Export PDF */}
+              <button
+                type="button"
+                onClick={() => onOpenExportModal?.()}
+                className="w-full flex items-center justify-center gap-2 p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 text-xs font-mono font-bold shadow-xs transition-all cursor-pointer"
+              >
+                <Printer className="h-3.5 w-3.5" />
+                <span>{language === 'en' ? 'Print / Export PDF' : 'Cetak / Ekspor PDF'}</span>
+              </button>
+            </div>
+          </motion.div>
+
+          {/* System Info Panel */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}

@@ -200,13 +200,6 @@ export default function JournalView({ accounts, entries, onAddEntry, onRemoveEnt
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={onResetData}
-            title="Reset"
-            className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white rounded transition-all flex items-center justify-center cursor-pointer shadow-2xs focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
-          >
-            <RefreshCw className="h-3.5 w-3.5" />
-          </button>
-          <button
             onClick={handleOpenForm}
             className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 text-[11px] font-mono rounded shadow-xs transition-all flex items-center gap-1.5 cursor-pointer font-bold focus:outline-hidden focus:ring-2 focus:ring-slate-400 dark:focus:ring-slate-500"
           >
